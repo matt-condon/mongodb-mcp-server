@@ -318,6 +318,54 @@ export class CreateAccessListTool extends AtlasToolBase {
     static toolName: string;
 }
 
+// @public (undocumented)
+export class CreateClusterTool extends AtlasToolBase {
+    // (undocumented)
+    argsShape: {
+        projectId: z.ZodString;
+        name: z.ZodString;
+        clusterType: z.ZodEnum<{
+            REPLICASET: "REPLICASET";
+            SHARDED: "SHARDED";
+            GEOSHARDED: "GEOSHARDED";
+        }>;
+        replicationSpecs: z.ZodArray<z.ZodObject<{
+            zoneName: z.ZodOptional<z.ZodString>;
+            regionConfigs: z.ZodArray<z.ZodObject<{
+                providerName: z.ZodString;
+                backingProviderName: z.ZodOptional<z.ZodString>;
+                regionName: z.ZodString;
+                priority: z.ZodOptional<z.ZodNumber>;
+                electableSpecs: z.ZodOptional<z.ZodObject<{
+                    instanceSize: z.ZodString;
+                    nodeCount: z.ZodOptional<z.ZodNumber>;
+                }, z.core.$strip>>;
+                autoScaling: z.ZodOptional<z.ZodObject<{
+                    compute: z.ZodOptional<z.ZodObject<{
+                        enabled: z.ZodBoolean;
+                        scaleDownEnabled: z.ZodOptional<z.ZodBoolean>;
+                        minInstanceSize: z.ZodOptional<z.ZodString>;
+                        maxInstanceSize: z.ZodOptional<z.ZodString>;
+                    }, z.core.$strip>>;
+                    diskGB: z.ZodOptional<z.ZodObject<{
+                        enabled: z.ZodBoolean;
+                    }, z.core.$strip>>;
+                }, z.core.$strip>>;
+            }, z.core.$strip>>;
+        }, z.core.$strip>>;
+        backupEnabled: z.ZodOptional<z.ZodBoolean>;
+        terminationProtectionEnabled: z.ZodOptional<z.ZodBoolean>;
+    };
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    protected execute(input: ToolArgs<typeof CreateClusterTool.argsShape>): Promise<CallToolResult>;
+    // (undocumented)
+    static operationType: OperationType;
+    // (undocumented)
+    static toolName: string;
+}
+
 // Warning: (ae-forgotten-export) The symbol "CreateCollectionOutputSchema" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
